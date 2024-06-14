@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1032527004790",
+    "project_id": "nvnotes-4bfb2",
+    "storage_bucket": "nvnotes-4bfb2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032527004790:android:f3a9506538849aea260b57",
+        "android_client_info": {
+          "package_name": "com.learning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk9CyX5hfrLcNh9Nlnj75mRRy2hLAb1b0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032527004790:android:2817efc5960edf23260b57",
+        "android_client_info": {
+          "package_name": "com.learning.nvnotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk9CyX5hfrLcNh9Nlnj75mRRy2hLAb1b0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
