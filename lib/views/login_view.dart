@@ -32,7 +32,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('login'),
+        title: const Text('Login'),
       ),
       body: FutureBuilder(
         future: Firebase.initializeApp(
@@ -78,6 +78,9 @@ class _LoginViewState extends State<LoginView> {
                     },
                     child: const Text('Login'),
                   ),
+                  TextButton(onPressed: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil('/register/', (route) => false);
+                  }, child: const Text("Register"),)
                 ],
               );
             default:return const Text('Loading....');
