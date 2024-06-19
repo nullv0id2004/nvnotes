@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:nvnotes/constants/routes.dart';
 import 'package:nvnotes/firebase_options.dart';
-
+import 'package:nvnotes/utility/show_error_dialogue.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -28,6 +29,7 @@ class _LoginViewState extends State<LoginView> {
     _password.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +38,8 @@ class _LoginViewState extends State<LoginView> {
       ),
       body: FutureBuilder(
         future: Firebase.initializeApp(
-                  options: DefaultFirebaseOptions.currentPlatform,
-                ),
+          options: DefaultFirebaseOptions.currentPlatform,
+        ),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
@@ -62,33 +64,55 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       final email = _email.text;
                       final password = _password.text;
                       try {
-                        final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                        email: email,
-                        password: password,
-                      );
-                      debugPrint('$userCredential');
-                        
-                      } on FirebaseAuthException catch(e){
-                        print(e.code);
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: email,
+                          password: password,
+                        );
+                        final user = FirebaseAuth.instance.currentUser;
+                        if (user?.emailVerified ?? false) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            notesRoute,
+                            (routes) => false,
+                          );
+                        } else {
+                          await user?.sendEmailVerification();
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            verifyemailRoute,
+                            (routes) => false,
+                          );
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        await ShowErrorDialogue(
+                          context,
+                          e.code,
+                        );
+                      } catch (e) {
+                        await ShowErrorDialogue(
+                          context,
+                          e.toString(),
+                        );
                       }
                     },
                     child: const Text('Login'),
                   ),
-                  TextButton(onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil('/register/', (route) => false);
-                  }, child: const Text("Register"),)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          registerRoute, (route) => false);
+                    },
+                    child: const Text("Register"),
+                  )
                 ],
               );
-            default:return const Text('Loading....');
+            default:
+              return const Text('Loading....');
           }
-          
         },
       ),
     );
   }
 }
-
