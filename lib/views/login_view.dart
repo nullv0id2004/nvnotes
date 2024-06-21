@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nvnotes/constants/routes.dart';
-import 'package:nvnotes/firebase_options.dart';
+import 'package:nvnotes/services/auth/auth_exceptions.dart';
+import 'package:nvnotes/services/auth/auth_service.dart';
 import 'package:nvnotes/utility/show_error_dialogue.dart';
 
 class LoginView extends StatefulWidget {
@@ -37,9 +36,7 @@ class _LoginViewState extends State<LoginView> {
         title: const Text('Login'),
       ),
       body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
+        future: AuthService.firebase().initialize(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
@@ -68,32 +65,31 @@ class _LoginViewState extends State<LoginView> {
                       final email = _email.text;
                       final password = _password.text;
                       try {
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        await AuthService.firebase().logIn(
                           email: email,
                           password: password,
                         );
-                        final user = FirebaseAuth.instance.currentUser;
-                        if (user?.emailVerified ?? false) {
+                        final user = AuthService.firebase().currentUser;
+                        if (user?.isEmailVerified ?? false) {
                           Navigator.of(context).pushNamedAndRemoveUntil(
                             notesRoute,
                             (routes) => false,
                           );
                         } else {
-                          await user?.sendEmailVerification();
                           Navigator.of(context).pushNamedAndRemoveUntil(
                             verifyemailRoute,
                             (routes) => false,
                           );
                         }
-                      } on FirebaseAuthException catch (e) {
+                      }on InvalidCredentialsAuthException{
                         await ShowErrorDialogue(
                           context,
-                          e.code,
+                          'Invalid Credentails',
                         );
-                      } catch (e) {
+                      }on GenericAuthException{
                         await ShowErrorDialogue(
                           context,
-                          e.toString(),
+                          'Something wrong happened',
                         );
                       }
                     },
