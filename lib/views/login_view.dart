@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nvnotes/constants/routes.dart';
 import 'package:nvnotes/services/auth/auth_exceptions.dart';
 import 'package:nvnotes/services/auth/auth_service.dart';
-import 'package:nvnotes/utility/show_error_dialogue.dart';
+import 'package:nvnotes/utility/dialogs/error_dialogue.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -81,13 +81,13 @@ class _LoginViewState extends State<LoginView> {
                             (routes) => false,
                           );
                         }
-                      }on InvalidCredentialsAuthException{
-                        await ShowErrorDialogue(
+                      } on InvalidCredentialsAuthException {
+                        await showErrorDialogue(
                           context,
                           'Invalid Credentails',
                         );
-                      }on GenericAuthException{
-                        await ShowErrorDialogue(
+                      } on GenericAuthException {
+                        await showErrorDialogue(
                           context,
                           'Something wrong happened',
                         );
