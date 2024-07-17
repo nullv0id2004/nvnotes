@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nvnotes/constants/routes.dart';
 import 'package:nvnotes/services/auth/auth_service.dart';
 import 'package:nvnotes/views/login_view.dart';
-import 'package:nvnotes/views/notes/new_note_view.dart';
+import 'package:nvnotes/views/notes/create_update_note_view.dart';
 import 'package:nvnotes/views/notes/notes_view.dart';
 import 'package:nvnotes/views/register_view.dart';
 import 'package:nvnotes/views/verify_email_view.dart';
@@ -22,7 +22,7 @@ void main() {
         registerRoute: (context) => const RegisterView(),
         notesRoute: (context) => const NotesView(),
         verifyemailRoute:(context) => const VerifyEmailView(),
-        newNoteRoute:(context) => const NewNoteView(),
+        createOrUpdateNoteRoute:(context) => const CreateUpdateNoteView(),
       },
     ),
   );
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
             }
 
           default:
-            return const Text('Loading....');
+            return const CircularProgressIndicator();
         }
       },
     );

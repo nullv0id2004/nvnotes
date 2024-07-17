@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nvnotes/utility/dialogs/generic_dialog.dart';
 
-Future<bool> showLogoutDialog(BuildContext context) {
+Future<bool> showLogOutDialog(BuildContext context) {
   return showGenericDialog(
     context: context,
     title: 'Logout',
